@@ -39,5 +39,7 @@ You can preview the production build with `npm run preview`.
 
 ## ToDos
 
+- make "ctrl + s" keyboard shortcut save the army list
+
 ### ToDo Comments
 
