@@ -1,20 +1,9 @@
 <script lang="ts">
-	import type { Army as ArmyType } from '$lib/types';
 	import { armiesStore } from '$lib/store/army-lists';
 	import { optionsStore } from '$lib/store/options';
 	import { randomUUID } from '$lib/utils';
 	import ListDisplay from '$lib/components/list-display.svelte';
 	import Army from './army.svelte';
-
-	let army: ArmyType = {
-		faction: '',
-		name: '',
-		maxPoints: 2000,
-		notes: '',
-		units: []
-	};
-
-	$: army = $optionsStore.armyListId ? $armiesStore[$optionsStore.armyListId] : army;
 </script>
 
 <div class="flex flex-row justify-center">

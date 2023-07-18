@@ -5,6 +5,7 @@
 	export let unitId: number;
 </script>
 
+<!-- @todo(nick-ng): change this to non-table -->
 <table class="max-w-prose w-full border-collapse mt-2">
 	<tbody>
 		<tr>

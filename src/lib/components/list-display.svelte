@@ -25,6 +25,7 @@
 	</div>
 	{#if showArmyNotes && army.notes}
 		<div class="markdown">
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html md.render(army.notes)}
 		</div>
 	{/if}

@@ -31,7 +31,10 @@
 		{#if showNotes && unit.notes}
 			<tr>
 				<td />
-				<td class="markdown" colspan="2">{@html md.render(unit.notes)}</td>
+				<td class="markdown" colspan="2">
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html md.render(unit.notes)}
+				</td>
 			</tr>
 		{/if}
 	</tbody>

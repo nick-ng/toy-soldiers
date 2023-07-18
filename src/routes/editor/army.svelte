@@ -36,7 +36,7 @@
 	</tbody>
 </table>
 
-{#each $armiesStore[armyId].units as _unit, i}
+{#each $armiesStore[armyId].units as _, i}
 	<Unit {armyId} unitId={i} />
 {/each}
 <button
