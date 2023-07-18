@@ -3,16 +3,19 @@ import { browser } from '$app/environment';
 
 const OPTIONS_LOCAL_STORAGE_KEY = 'NICK_TOY_SOLDIERS_OPTIONS';
 
-type Options = { armyListId?: string };
+type Options = { armyListId?: string; showArmyNotes?: boolean; showUnitNotes?: boolean };
 
-let storedOptions: Options = {};
+let storedOptions: Options = { showArmyNotes: true, showUnitNotes: true };
 
 if (browser) {
 	try {
 		const storedOptionsString = localStorage.getItem(OPTIONS_LOCAL_STORAGE_KEY);
 
 		if (storedOptionsString) {
-			storedOptions = JSON.parse(storedOptionsString);
+			storedOptions = {
+				...storedOptions,
+				...JSON.parse(storedOptionsString)
+			};
 		}
 	} catch (_e) {
 		// noop

@@ -9,6 +9,9 @@ export default {
 			},
 			flexBasis: {
 				prose: '65ch'
+			},
+			fontFamily: {
+				good: '"Comic Sans MS", sans-serif'
 			}
 		}
 	},

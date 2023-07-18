@@ -3,6 +3,7 @@
 	import { armiesStore } from '$lib/store/army-lists';
 	import { optionsStore } from '$lib/store/options';
 	import { randomUUID } from '$lib/utils';
+	import ListDisplay from '$lib/components/list-display.svelte';
 	import Army from './army.svelte';
 
 	let army: ArmyType = {
@@ -69,24 +70,46 @@
 	</div>
 	<div class="basis-prose mx-4">
 		<h1>Editor</h1>
-		<Army
-			{army}
-			handleSave={(newArmy) => {
-				const armyListId = $optionsStore.armyListId;
-				if (!armyListId) {
-					return;
-				}
-
-				armiesStore.update((prevArmies) => {
-					return {
-						...prevArmies,
-						[armyListId]: newArmy
-					};
-				});
-			}}
-		/>
+		{#if $optionsStore.armyListId && $armiesStore[$optionsStore.armyListId]}
+			<Army armyId={$optionsStore.armyListId} />
+		{:else}
+			<p>Make an army.</p>
+		{/if}
 	</div>
 	<div class="basis-prose">
 		<h2>Preview</h2>
+		<table class="mb-2">
+			<tbody>
+				<tr>
+					<td><label for="preview-show-army-notes-checkbox">Show Army Notes</label></td>
+					<td
+						><input
+							id="preview-show-army-notes-checkbox"
+							class="ml-2"
+							type="checkbox"
+							bind:checked={$optionsStore.showArmyNotes}
+						/></td
+					>
+				</tr>
+				<tr>
+					<td><label for="preview-show-unit-notes-checkbox">Show Unit Notes</label></td>
+					<td
+						><input
+							id="preview-show-unit-notes-checkbox"
+							class="ml-2"
+							type="checkbox"
+							bind:checked={$optionsStore.showUnitNotes}
+						/></td
+					>
+				</tr>
+			</tbody>
+		</table>
+		{#if $optionsStore.armyListId && $armiesStore[$optionsStore.armyListId]}
+			<ListDisplay
+				army={$armiesStore[$optionsStore.armyListId]}
+				showArmyNotes={!!$optionsStore.showArmyNotes}
+				showUnitNotes={!!$optionsStore.showUnitNotes}
+			/>
+		{/if}
 	</div>
 </div>
