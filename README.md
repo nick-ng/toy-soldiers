@@ -43,4 +43,3 @@ You can preview the production build with `npm run preview`.
 
 ### ToDo Comments
 
-- src/routes/editor/army.svelte:79: @todo(nick-ng): some how save at this point?

@@ -1,78 +1,57 @@
 <script lang="ts">
-	import type { Unit } from '$lib/types';
+	import { armiesStore } from '$lib/store/army-lists';
 
-	export let unit: Unit;
-	export let handleSave: (newUnit: Unit) => void | Promise<void>;
-
-	let unitSize = unit.size;
-	let unitName = unit.name;
-	let unitType = unit.type;
-	let unitNotes = unit.notes;
-	let unitPoints = unit.points;
-
-	$: dirty =
-		unitSize !== unit.size ||
-		unitName !== unit.name ||
-		unitType !== unit.type ||
-		unitNotes !== unit.notes ||
-		unitPoints !== unit.points;
+	export let armyId: string;
+	export let unitId: number;
 </script>
 
-<table class="max-w-prose w-full border-collapse">
+<!-- @todo(nick-ng): change this to non-table -->
+<table class="max-w-prose w-full border-collapse mt-2">
 	<tbody>
 		<tr>
 			<td colspan="3">
 				<input
 					class="w-full"
 					type="text"
-					bind:value={unitName}
+					bind:value={$armiesStore[armyId].units[unitId].name}
 					placeholder="Unit Name (e.g. Viridian Company)"
 				/>
 			</td>
 		</tr>
 		<tr>
 			<td class="w-14">
-				<input class="w-full text-right" type="number" bind:value={unitSize} />
+				<input
+					class="w-full text-right"
+					type="number"
+					bind:value={$armiesStore[armyId].units[unitId].size}
+				/>
 			</td>
 			<td class="w-max">
 				<input
 					class="w-full"
 					type="text"
-					bind:value={unitType}
+					bind:value={$armiesStore[armyId].units[unitId].type}
 					placeholder="Unit Type (e.g. Soldiers with Pikes)"
 				/>
 			</td>
 			<td class="w-min text-right">
 				<label
 					>Pt
-					<input class="w-16 text-right" type="number" bind:value={unitPoints} /></label
+					<input
+						class="w-16 text-right"
+						type="number"
+						bind:value={$armiesStore[armyId].units[unitId].points}
+					/></label
 				>
 			</td>
 		</tr>
 		<tr>
 			<td colspan="3">
-				<textarea class="resize-none w-full h-36" bind:value={unitNotes} />
+				<textarea
+					class="resize-none w-full h-36"
+					bind:value={$armiesStore[armyId].units[unitId].notes}
+				/>
 			</td>
 		</tr>
-		{#if dirty}
-			<tr>
-				<td colspan="3">
-					<button
-						class="w-full mb-4"
-						on:click={() => {
-							if (dirty) {
-								handleSave({
-									size: unitSize,
-									name: unitName,
-									type: unitType,
-									notes: unitNotes,
-									points: unitPoints
-								});
-							}
-						}}>Save</button
-					>
-				</td>
-			</tr>
-		{/if}
 	</tbody>
 </table>
