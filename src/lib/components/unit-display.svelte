@@ -5,7 +5,7 @@
 	export let unit: Unit;
 	export let showNotes: boolean;
 
-	const md = new MarkdownIt().disable(['link', 'image', 'autolink', 'html_inline', 'linkify']);
+	const md = new MarkdownIt().disable(['link', 'autolink', 'html_inline', 'linkify']);
 </script>
 
 <table class="max-w-prose w-full border-collapse mt-2">
