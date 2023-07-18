@@ -7,7 +7,7 @@
 	export let showArmyNotes: boolean;
 	export let showUnitNotes: boolean;
 
-	const md = new MarkdownIt();
+	const md = new MarkdownIt().disable(['link', 'image', 'autolink', 'html_inline', 'linkify']);
 
 	$: armyPoints = army.units.reduce((accumulator, u) => accumulator + u.points, 0);
 </script>
