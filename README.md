@@ -43,7 +43,6 @@ You can preview the production build with `npm run preview`.
 - export lists
 - import lists
 - delete lists
-- rearrange units
 
 ### ToDo Comments
 
