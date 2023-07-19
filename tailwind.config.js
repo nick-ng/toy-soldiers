@@ -12,6 +12,11 @@ export default {
 			},
 			fontFamily: {
 				good: '"Comic Sans MS", sans-serif'
+			},
+			spacing: {
+				'full-1': 'calc(100% + 0.25rem)',
+				'full-1.5': 'calc(100% + 0.375rem)',
+				'full-2': 'calc(100% + 0.5rem)'
 			}
 		}
 	},

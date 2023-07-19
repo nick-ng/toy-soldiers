@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Army } from '$lib/types';
 	import MarkdownIt from 'markdown-it';
+	import { page } from '$app/stores';
 	import UnitDisplay from './unit-display.svelte';
 
 	export let army: Army;
@@ -9,10 +10,12 @@
 
 	const md = new MarkdownIt().disable(['link', 'autolink', 'html_inline', 'linkify']);
 
+	const goodFont = $page.url.searchParams.get('font') === 'good';
+
 	$: armyPoints = army.units.reduce((accumulator, u) => accumulator + u.points, 0);
 </script>
 
-<div>
+<div class={goodFont ? 'font-good' : ''}>
 	{#if army.name}
 		<h1>{army.name}</h1>
 		<h2>{army.faction}</h2>

@@ -3,8 +3,9 @@
 </script>
 
 <nav class="flex flex-row justify-start p-2">
+	<a class="button-default no-underline mr-1" href="/">Home</a>
 	<a class="button-default no-underline mr-1" href="/editor">Editor</a>
-	<a class="button-default no-underline mr-1" href="/view">Viewer</a>
+	<a class="button-default no-underline mr-1" href="/viewer">Viewer</a>
 	<div class="flex-grow" />
 	<a
 		class="button-default no-underline"

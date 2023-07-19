@@ -10,7 +10,7 @@
 	}
 
 	body {
-		@apply bg-white text-black dark:bg-gray-800 dark:text-white font-good;
+		@apply bg-white text-black dark:bg-gray-800 dark:text-white;
 	}
 
 	input,
@@ -51,17 +51,21 @@
 		@apply odd:bg-gray-200 odd:dark:bg-gray-700;
 	}
 
+	.odd-bg {
+		@apply bg-gray-200 dark:bg-gray-700;
+	}
+
 	button:disabled {
 		@apply cursor-not-allowed opacity-70;
 	}
 
 	button,
 	.button-default {
-		@apply rounded border border-gray-600 px-2 py-0 dark:border-gray-300 cannot-hover:py-2;
+		@apply rounded border border-gray-600 px-2 py-0 dark:border-gray-300 cannot-hover:py-2 bg-white dark:bg-gray-800;
 	}
 
 	.border-default {
-		@apply border border-gray-300 dark:border-gray-600;
+		@apply border border-gray-600 dark:border-gray-300;
 	}
 
 	.markdown td,

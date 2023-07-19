@@ -3,24 +3,22 @@
 	import { optionsStore } from '$lib/store/options';
 	import ListControls from '$lib/components/list-controls.svelte';
 	import ArmyDisplay from '$lib/components/army-display.svelte';
-	import Army from './army.svelte';
 </script>
 
-<div class="flex flex-row justify-center">
-	<div class="mr-4">
-		<h2>Lists</h2>
-		<ListControls showNewArmyButton />
+<div class="flex flex-col lg:flex-row justify-center relative">
+	<div class="flex-grow flex flex-row justify-center">
+		<div class="lg:basis-prose mx-1">
+			{#if $optionsStore.armyListId && $armiesStore[$optionsStore.armyListId]}
+				<ArmyDisplay
+					army={$armiesStore[$optionsStore.armyListId]}
+					showArmyNotes={!!$optionsStore.showArmyNotes}
+					showUnitNotes={!!$optionsStore.showUnitNotes}
+				/>
+			{/if}
+		</div>
 	</div>
-	<div class="basis-prose mr-4">
-		<h1>Editor</h1>
-		{#if $optionsStore.armyListId && $armiesStore[$optionsStore.armyListId]}
-			<Army armyId={$optionsStore.armyListId} />
-		{:else}
-			<p>Make an army.</p>
-		{/if}
-	</div>
-	<div class="basis-prose">
-		<h2>Preview</h2>
+	<details class="lg:absolute left-1 top-0 ml-1">
+		<summary class="text-lg">Lists</summary>
 		<table class="mb-2">
 			<tbody>
 				<tr>
@@ -47,12 +45,6 @@
 				</tr>
 			</tbody>
 		</table>
-		{#if $optionsStore.armyListId && $armiesStore[$optionsStore.armyListId]}
-			<ArmyDisplay
-				army={$armiesStore[$optionsStore.armyListId]}
-				showArmyNotes={!!$optionsStore.showArmyNotes}
-				showUnitNotes={!!$optionsStore.showUnitNotes}
-			/>
-		{/if}
-	</div>
+		<ListControls />
+	</details>
 </div>

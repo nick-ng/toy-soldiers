@@ -48,7 +48,9 @@
 		<tr>
 			<td colspan="3">
 				<textarea
-					class="resize-none w-full h-36"
+					class="resize-none w-full {$armiesStore[armyId].units[unitId].notes.split('\n').length > 3
+						? 'h-36'
+						: 'h-16'}"
 					bind:value={$armiesStore[armyId].units[unitId].notes}
 				/>
 			</td>
