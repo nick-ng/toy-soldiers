@@ -39,7 +39,11 @@ You can preview the production build with `npm run preview`.
 
 ## ToDos
 
-- make "ctrl + s" keyboard shortcut save the army list
+- make "ctrl + s" keyboard shortcut not bring up the save menu
+- export lists
+- import lists
+- delete lists
+- rearrange units
 
 ### ToDo Comments
 
