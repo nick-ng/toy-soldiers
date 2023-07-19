@@ -9,14 +9,25 @@
 		height: 100%;
 	}
 
-	body {
-		@apply bg-white text-black dark:bg-gray-800 dark:text-white;
+	body,
+	input,
+	select,
+	textarea {
+		@apply text-black dark:text-gray-100;
+	}
+
+	body,
+	input,
+	select,
+	textarea,
+	.opaque {
+		@apply bg-white dark:bg-gray-800;
 	}
 
 	input,
 	select,
 	textarea {
-		@apply rounded border border-gray-200 bg-white px-0.5 text-black dark:border-gray-600 dark:bg-gray-800 dark:text-white;
+		@apply rounded border border-gray-300 px-0.5 dark:border-gray-500;
 	}
 
 	a {
@@ -51,6 +62,10 @@
 		@apply odd:bg-gray-200 odd:dark:bg-gray-700;
 	}
 
+	.even-rows {
+		@apply even:bg-gray-200 even:dark:bg-gray-700;
+	}
+
 	.odd-bg {
 		@apply bg-gray-200 dark:bg-gray-700;
 	}
@@ -61,7 +76,7 @@
 
 	button,
 	.button-default {
-		@apply rounded border border-gray-600 px-2 py-0 dark:border-gray-300 cannot-hover:py-2 bg-white dark:bg-gray-800;
+		@apply rounded border border-gray-600 px-2 py-0 dark:border-gray-300 cannot-hover:py-2;
 	}
 
 	.border-default {
@@ -79,5 +94,17 @@
 
 	.markdown hr {
 		@apply my-1;
+	}
+
+	.markdown ul {
+		@apply list-disc;
+	}
+
+	.markdown ol {
+		@apply list-decimal;
+	}
+
+	.markdown li {
+		@apply ml-4;
 	}
 }

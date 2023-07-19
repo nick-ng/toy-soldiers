@@ -31,7 +31,14 @@
 		</tr>
 		<tr>
 			<td class="w-min align-text-top">Army Notes</td>
-			<td><textarea class="resize-none w-full h-36" bind:value={$armiesStore[armyId].notes} /></td>
+			<td
+				><textarea
+					class="resize-none w-full {$armiesStore[armyId].notes.split('\n').length > 2
+						? 'h-36'
+						: 'h-16'}"
+					bind:value={$armiesStore[armyId].notes}
+				/></td
+			>
 		</tr>
 	</tbody>
 </table>
@@ -40,6 +47,7 @@
 	<Unit {armyId} unitId={i} />
 {/each}
 <button
+	class="mb-1"
 	on:click={() => {
 		const newUnit = {
 			size: 1,

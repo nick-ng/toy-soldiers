@@ -7,6 +7,9 @@ export default {
 				'can-hover': { raw: '(hover: hover)' },
 				'cannot-hover': { raw: '(hover: none)' }
 			},
+			width: {
+				prose: '65ch'
+			},
 			flexBasis: {
 				prose: '65ch'
 			},
