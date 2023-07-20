@@ -5,14 +5,19 @@
 
 	export let armyId: string;
 
-	$: armyPoints = $armiesStore[armyId].units.reduce((accumulator, u) => accumulator + u.points, 0);
+	$: armyPoints = $armiesStore[armyId]?.units.reduce(
+		(accumulator, u) => accumulator + (u?.points || 0),
+		0
+	);
 </script>
 
 <table class="w-full border-collapse">
 	<tbody>
 		<tr>
 			<td class="w-min">Army Name</td>
-			<td><input class="w-full" type="text" bind:value={$armiesStore[armyId].name} /></td>
+			<td class="flex flex-row">
+				<input class="flex-grow" type="text" bind:value={$armiesStore[armyId].name} />
+			</td>
 		</tr>
 		<tr>
 			<td class="w-min">Army Faction</td>

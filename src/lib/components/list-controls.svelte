@@ -4,8 +4,6 @@
 	import { randomUUID } from '$lib/utils';
 
 	export let showNewArmyButton: boolean = false;
-
-	const maxNameLength = 32;
 </script>
 
 <ul>
@@ -16,11 +14,11 @@
 		return aName.localeCompare(bName);
 	}) as temp, i}
 		{@const listName = temp[1].name
-			? `${temp[1].name} - ${temp[1].faction}`
+			? `${temp[1].name}${temp[1].faction ? ` - ${temp[1].faction}` : ''}`
 			: `Unnamed ${temp[1].faction} Army ${i + 1}`}
-		<li class="mb-1">
+		<li class="group relative mb-1">
 			<button
-				class="group relative w-full"
+				class="text-left whitespace-nowrap overflow-hidden text-ellipsis w-64"
 				on:click={() => {
 					optionsStore.update((prevOptions) => ({
 						...prevOptions,
@@ -28,29 +26,27 @@
 					}));
 				}}
 			>
-				{listName.length < maxNameLength
-					? listName
-					: `${[...listName].slice(0, maxNameLength).join('').trim()}…`}
-				<div
-					class="group-hover:block hidden absolute left-full-1 top-0 bg-white dark:bg-gray-800 px-2 py-1 border-default"
-				>
-					<div class="whitespace-nowrap">
-						{temp[1].name || temp[1].faction || 'No Name or Faction'}
-					</div>
-					{#if temp[1].name}
-						<div class="whitespace-nowrap">
-							{temp[1].faction}
-						</div>
-					{/if}
-					<div class="whitespace-nowrap text-sm">{temp[1].maxPoints} Points</div>
-				</div>
+				{listName}
 			</button>
+			<div
+				class="group-hover:block hidden absolute left-full-1 top-0 bg-white dark:bg-gray-800 px-2 py-1 border-default"
+			>
+				<div class="whitespace-nowrap">
+					{temp[1].name || temp[1].faction || 'No Name or Faction'}
+				</div>
+				{#if temp[1].name}
+					<div class="whitespace-nowrap">
+						{temp[1].faction}
+					</div>
+				{/if}
+				<div class="whitespace-nowrap text-sm">{temp[1].maxPoints} Points</div>
+			</div>
 		</li>
 	{/each}
 	{#if showNewArmyButton}
 		<li>
 			<button
-				class="w-full"
+				class="w-64 text-left"
 				on:click={() => {
 					armiesStore.update((prevArmies) => {
 						const newArmyId = randomUUID();

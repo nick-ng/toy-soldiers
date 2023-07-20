@@ -43,7 +43,7 @@
 	<details class="">
 		<summary>Notes</summary>
 		<textarea
-			class="resize-none w-full {$armiesStore[armyId].units[unitId].notes.split('\n').length > 2
+			class="resize-none w-full {$armiesStore[armyId].units[unitId]?.notes.split('\n').length > 2
 				? 'h-36'
 				: 'h-16'}"
 			bind:value={$armiesStore[armyId].units[unitId].notes}
@@ -52,7 +52,12 @@
 	<div class="mt-1 flex flex-row">
 		<button
 			class="px-1 cannot-hover:px-2 opaque"
+			disabled={unitId === 0}
 			on:click={() => {
+				if (unitId === 0) {
+					return;
+				}
+
 				armiesStore.update((prevArmiesStore) => {
 					const thisUnit = prevArmiesStore[armyId].units[unitId];
 					const unitMinus1 = prevArmiesStore[armyId].units[unitId - 1];
@@ -70,7 +75,12 @@
 		>
 		<button
 			class="ml-1 px-1 cannot-hover:px-2 opaque"
+			disabled={unitId === $armiesStore[armyId].units.length - 1}
 			on:click={() => {
+				if (unitId === $armiesStore[armyId].units.length - 1) {
+					return;
+				}
+
 				armiesStore.update((prevArmiesStore) => {
 					const thisUnit = prevArmiesStore[armyId].units[unitId];
 					const unitPlus1 = prevArmiesStore[armyId].units[unitId + 1];
