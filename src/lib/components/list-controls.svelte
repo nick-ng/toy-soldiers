@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { ZodError } from 'zod';
 	import { armiesStore } from '$lib/store/army-lists';
 	import { optionsStore } from '$lib/store/options';
-	import { randomUUID } from '$lib/utils';
+	import { ArmySchema } from '$lib/types';
+	import { getListName, randomUUID } from '$lib/utils';
 
 	export let showNewArmyButton: boolean = false;
+
+	let errors: string[] = [];
 </script>
 
 <ul>
@@ -13,9 +17,6 @@
 
 		return aName.localeCompare(bName);
 	}) as temp, i}
-		{@const listName = temp[1].name
-			? `${temp[1].name}${temp[1].faction ? ` - ${temp[1].faction}` : ''}`
-			: `Unnamed ${temp[1].faction} Army ${i + 1}`}
 		<li class="group relative mb-1">
 			<button
 				class="text-left whitespace-nowrap overflow-hidden text-ellipsis w-64"
@@ -26,7 +27,7 @@
 					}));
 				}}
 			>
-				{listName}
+				{getListName(temp[1], i)}
 			</button>
 			<div
 				class="group-hover:block hidden absolute left-full-1 top-0 bg-white dark:bg-gray-800 px-2 py-1 border-default"
@@ -44,7 +45,7 @@
 		</li>
 	{/each}
 	{#if showNewArmyButton}
-		<li>
+		<li class="mb-1">
 			<button
 				class="w-64 text-left"
 				on:click={() => {
@@ -70,5 +71,47 @@
 				}}>New Army</button
 			>
 		</li>
+		<li>
+			<label class="button-default w-64 block cursor-pointer">
+				Import From File
+				<input
+					class="w-0 opacity-0 text-sm text-left inline-block"
+					type="file"
+					accept=".json"
+					on:change={async (event) => {
+						errors = [];
+
+						if (event.currentTarget.files) {
+							for (const file of [...event.currentTarget.files]) {
+								try {
+									const newList = ArmySchema.parse(JSON.parse(await file.text()));
+
+									armiesStore.update((prevArmies) => {
+										let newArmyId = randomUUID();
+										while (Object.keys(prevArmies).includes(newArmyId)) {
+											newArmyId = randomUUID();
+										}
+
+										return {
+											...prevArmies,
+											[newArmyId]: newList
+										};
+									});
+								} catch (e) {
+									if (e instanceof ZodError) {
+										errors.push(`${file.name} doesn't contain an army`);
+									} else {
+										errors.push(`Error when loading ${file.name}`);
+									}
+								}
+							}
+						}
+					}}
+				/>
+			</label>
+		</li>
 	{/if}
+	{#each errors as error}
+		<li>{error}</li>
+	{/each}
 </ul>

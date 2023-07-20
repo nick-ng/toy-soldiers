@@ -18,7 +18,6 @@
 <div class={goodFont ? 'font-good' : ''}>
 	{#if army.name}
 		<h1>{army.name}</h1>
-		<h2>{army.faction}</h2>
 	{:else}
 		<h1>{army.faction} Army</h1>
 	{/if}
