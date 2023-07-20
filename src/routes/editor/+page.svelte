@@ -4,13 +4,16 @@
 	import ListControls from '$lib/components/list-controls.svelte';
 	import ArmyDisplay from '$lib/components/army-display.svelte';
 	import Army from './army.svelte';
+	import { getListName } from '$lib/utils';
+
+	$: currentArmy = $optionsStore.armyListId ? $armiesStore[$optionsStore.armyListId] : null;
 </script>
 
 <div class="flex flex-row justify-center">
 	<div class="mr-4">
 		<h2>Lists</h2>
 		<ListControls showNewArmyButton />
-		<details class="max-w-prose">
+		<details class="w-64">
 			<summary class="text-xl">Help</summary>
 			<p>The army list is saved on your browser as soon as you make any changes.</p>
 			<p>
@@ -22,8 +25,22 @@
 		</details>
 	</div>
 	<div class="basis-prose mr-4">
-		<div class="flex flex-row justify-between items-center">
+		<div class="flex flex-row items-center">
 			<h1 class="inline">Editor</h1>
+			<div class="flex-grow" />
+			{#if currentArmy}
+				<a
+					href={`data:text/json;charset=utf-8,${JSON.stringify(currentArmy)}`}
+					download={`${getListName(currentArmy).replaceAll(/[^a-z0-9\-]+/gi, '_')}.json`}
+					class="ml-1 no-underline opaque button-default">Download</a
+				>
+				<button
+					class="ml-1 px-1 cannot-hover:px-2 opaque"
+					on:click={() => {
+						navigator.clipboard.writeText(JSON.stringify(currentArmy));
+					}}>📋</button
+				>
+			{/if}
 			<button
 				class="ml-1 px-0 cannot-hover:px-2 opaque"
 				on:click={() => {
