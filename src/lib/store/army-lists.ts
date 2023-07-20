@@ -12,6 +12,10 @@ if (browser) {
 
 		if (storedArmiesString) {
 			storedArmies = JSON.parse(storedArmiesString);
+
+			for (const key in storedArmies) {
+				storedArmies[key].units = storedArmies[key].units.filter((u) => u);
+			}
 		}
 	} catch (_e) {
 		// noop

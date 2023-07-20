@@ -12,7 +12,7 @@
 
 	const goodFont = $page.url.searchParams.get('font') === 'good';
 
-	$: armyPoints = army.units.reduce((accumulator, u) => accumulator + u.points, 0);
+	$: armyPoints = army.units.reduce((accumulator, u) => accumulator + (u?.points || 0), 0);
 </script>
 
 <div class={goodFont ? 'font-good' : ''}>

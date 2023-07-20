@@ -22,6 +22,7 @@
 					</td>
 					<td>
 						<button
+							class="opaque"
 							on:click={() => {
 								optionsStore.update((prevOptions) => ({
 									...prevOptions,
@@ -34,6 +35,7 @@
 					</td>
 					<td>
 						<button
+							class="opaque"
 							on:click={() => {
 								optionsStore.update((prevOptions) => ({
 									...prevOptions,

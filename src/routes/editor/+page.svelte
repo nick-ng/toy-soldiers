@@ -22,7 +22,45 @@
 		</details>
 	</div>
 	<div class="basis-prose mr-4">
-		<h1>Editor</h1>
+		<div class="flex flex-row justify-between items-center">
+			<h1 class="inline">Editor</h1>
+			<button
+				class="ml-1 px-0 cannot-hover:px-2 opaque"
+				on:click={() => {
+					armiesStore.update((prevArmies) => {
+						const armyId = $optionsStore.armyListId;
+
+						if (!armyId) {
+							return prevArmies;
+						}
+
+						delete prevArmies[armyId];
+
+						const sortedArmies = Object.entries(prevArmies).sort((a, b) => {
+							const aName = a[1].name
+								? `${a[1].name} - ${a[1].faction}`
+								: `Unnamed ${a[1].faction} Army`;
+							const bName = b[1].name
+								? `${b[1].name} - ${b[1].faction}`
+								: `Unnamed ${b[1].faction} Army`;
+
+							return aName.localeCompare(bName);
+						});
+
+						if (sortedArmies.length > 0) {
+							optionsStore.update((prevOptions) => {
+								return {
+									...prevOptions,
+									armyListId: sortedArmies[0][0]
+								};
+							});
+						}
+
+						return prevArmies;
+					});
+				}}>🗑️</button
+			>
+		</div>
 		{#if $optionsStore.armyListId && $armiesStore[$optionsStore.armyListId]}
 			<Army armyId={$optionsStore.armyListId} />
 		{:else}
