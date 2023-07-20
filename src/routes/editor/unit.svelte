@@ -40,14 +40,15 @@
 			/>
 		</div>
 	</div>
-	<div class="mt-1">
+	<details class="">
+		<summary>Notes</summary>
 		<textarea
 			class="resize-none w-full {$armiesStore[armyId].units[unitId].notes.split('\n').length > 2
 				? 'h-36'
 				: 'h-16'}"
 			bind:value={$armiesStore[armyId].units[unitId].notes}
 		/>
-	</div>
+	</details>
 	<div class="mt-1 flex flex-row">
 		<button
 			class="px-1 cannot-hover:px-2 opaque"
