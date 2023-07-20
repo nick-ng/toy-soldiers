@@ -31,7 +31,7 @@
 			{#if currentArmy}
 				<a
 					href={`data:text/json;charset=utf-8,${JSON.stringify(currentArmy)}`}
-					download={`${getListName(currentArmy).replaceAll(/[^a-z0-9\-]+/gi, '_')}.json`}
+					download={`${getListName(currentArmy).replaceAll(/[^a-z0-9-]+/gi, '_')}.json`}
 					class="ml-1 no-underline opaque button-default">Download</a
 				>
 				<button
