@@ -1,34 +1,32 @@
 <script lang="ts">
 	import { ZodError } from 'zod';
+	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { armiesStore } from '$lib/store/army-lists';
-	import { optionsStore } from '$lib/store/options';
 	import { ArmySchema } from '$lib/types';
 	import { getListName, randomUUID } from '$lib/utils';
 
 	export let showNewArmyButton: boolean = false;
+	let subRoute = showNewArmyButton ? 'editor' : 'viewer';
 
 	let errors: string[] = [];
 </script>
 
-<ul>
+<div>
 	{#each Object.entries($armiesStore).sort((a, b) => {
-		const aName = a[1].name ? `${a[1].name} - ${a[1].faction}` : `Unnamed ${a[1].faction} Army`;
-		const bName = b[1].name ? `${b[1].name} - ${b[1].faction}` : `Unnamed ${b[1].faction} Army`;
+		const aName = getListName(a[1]);
+		const bName = getListName(b[1]);
 
 		return aName.localeCompare(bName);
 	}) as temp, i}
-		<li class="group relative mb-1">
-			<button
-				class="text-left whitespace-nowrap overflow-hidden text-ellipsis w-64"
-				on:click={() => {
-					optionsStore.update((prevOptions) => ({
-						...prevOptions,
-						armyListId: temp[0]
-					}));
-				}}
+		<div class="group relative mb-1">
+			<a
+				class="block text-left whitespace-nowrap overflow-hidden text-ellipsis w-64 button-default no-underline normal-color {$page
+					.params.slug === temp[0]
+					? 'odd-rows'
+					: ''}"
+				href="/{subRoute}/{temp[0]}">{getListName(temp[1], i)}</a
 			>
-				{getListName(temp[1], i)}
-			</button>
 			<div
 				class="group-hover:block hidden absolute left-full-1 top-0 bg-white dark:bg-gray-800 px-2 py-1 border-default"
 			>
@@ -42,21 +40,17 @@
 				{/if}
 				<div class="whitespace-nowrap text-sm">{temp[1].maxPoints} Points</div>
 			</div>
-		</li>
+		</div>
 	{/each}
 	{#if showNewArmyButton}
-		<li class="mb-1">
+		<hr class="mb-1" />
+		<div class="mb-1">
 			<button
-				class="w-64 text-left"
+				class="text-left"
 				on:click={() => {
+					const newArmyId = randomUUID();
+
 					armiesStore.update((prevArmies) => {
-						const newArmyId = randomUUID();
-
-						optionsStore.update((prevOptions) => ({
-							...prevOptions,
-							armyListId: newArmyId
-						}));
-
 						return {
 							...prevArmies,
 							[newArmyId]: {
@@ -68,14 +62,16 @@
 							}
 						};
 					});
+
+					goto(`/editor/${newArmyId}`);
 				}}>New Army</button
 			>
-		</li>
-		<li>
-			<label class="button-default w-64 block cursor-pointer">
+		</div>
+		<div>
+			<label class="button-default inline-block cursor-pointer relative">
 				Import From File
 				<input
-					class="w-0 opacity-0 text-sm text-left inline-block"
+					class="w-0 opacity-0 text-sm text-left block absolute top-0 left-0"
 					type="file"
 					accept=".json"
 					on:change={async (event) => {
@@ -86,8 +82,9 @@
 								try {
 									const newList = ArmySchema.parse(JSON.parse(await file.text()));
 
+									let newArmyId = randomUUID();
+
 									armiesStore.update((prevArmies) => {
-										let newArmyId = randomUUID();
 										while (Object.keys(prevArmies).includes(newArmyId)) {
 											newArmyId = randomUUID();
 										}
@@ -97,6 +94,8 @@
 											[newArmyId]: newList
 										};
 									});
+
+									goto(`/editor/${newArmyId}`);
 								} catch (e) {
 									if (e instanceof ZodError) {
 										errors.push(`${file.name} doesn't contain an army`);
@@ -109,9 +108,9 @@
 					}}
 				/>
 			</label>
-		</li>
+		</div>
 	{/if}
 	{#each errors as error}
-		<li>{error}</li>
+		<div>{error}</div>
 	{/each}
-</ul>
+</div>
