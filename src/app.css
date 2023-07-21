@@ -12,7 +12,8 @@
 	body,
 	input,
 	select,
-	textarea {
+	textarea,
+	.normal-color {
 		@apply text-black dark:text-gray-100;
 	}
 

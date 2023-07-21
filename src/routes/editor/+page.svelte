@@ -1,18 +1,14 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { armiesStore } from '$lib/store/army-lists';
-	import { optionsStore } from '$lib/store/options';
+	import { randomUUID } from '$lib/utils';
 	import ListControls from '$lib/components/list-controls.svelte';
-	import ArmyDisplay from '$lib/components/army-display.svelte';
-	import Army from './army.svelte';
-	import { getListName } from '$lib/utils';
-
-	$: currentArmy = $optionsStore.armyListId ? $armiesStore[$optionsStore.armyListId] : null;
 </script>
 
 <div class="flex flex-row justify-center">
 	<div class="mr-4">
 		<h2>Lists</h2>
-		<ListControls showNewArmyButton />
+		<ListControls showNewArmyButton subRoute={'editor'} />
 		<details class="w-64">
 			<summary class="text-xl">Help</summary>
 			<p>The army list is saved on your browser as soon as you make any changes.</p>
@@ -27,97 +23,35 @@
 	<div class="basis-prose mr-4">
 		<div class="flex flex-row items-center">
 			<h1 class="inline">Editor</h1>
-			<div class="flex-grow" />
-			{#if currentArmy}
-				<a
-					href={`data:text/json;charset=utf-8,${JSON.stringify(currentArmy)}`}
-					download={`${getListName(currentArmy).replaceAll(/[^a-z0-9-]+/gi, '_')}.json`}
-					class="ml-1 no-underline opaque button-default">Download</a
-				>
+		</div>
+		{#if Object.keys($armiesStore).length > 0}
+			<p>Choose an army</p>
+		{:else}
+			<p>
 				<button
-					class="ml-1 px-1 cannot-hover:px-2 opaque"
 					on:click={() => {
-						navigator.clipboard.writeText(JSON.stringify(currentArmy));
-					}}>📋</button
-				>
-			{/if}
-			<button
-				class="ml-1 px-0 cannot-hover:px-2 opaque"
-				on:click={() => {
-					armiesStore.update((prevArmies) => {
-						const armyId = $optionsStore.armyListId;
+						const newArmyId = randomUUID();
 
-						if (!armyId) {
-							return prevArmies;
-						}
-
-						delete prevArmies[armyId];
-
-						const sortedArmies = Object.entries(prevArmies).sort((a, b) => {
-							const aName = a[1].name
-								? `${a[1].name} - ${a[1].faction}`
-								: `Unnamed ${a[1].faction} Army`;
-							const bName = b[1].name
-								? `${b[1].name} - ${b[1].faction}`
-								: `Unnamed ${b[1].faction} Army`;
-
-							return aName.localeCompare(bName);
+						armiesStore.update((prevArmies) => {
+							return {
+								...prevArmies,
+								[newArmyId]: {
+									faction: '',
+									maxPoints: 2000,
+									name: '',
+									notes: '',
+									units: []
+								}
+							};
 						});
 
-						if (sortedArmies.length > 0) {
-							optionsStore.update((prevOptions) => {
-								return {
-									...prevOptions,
-									armyListId: sortedArmies[0][0]
-								};
-							});
-						}
-
-						return prevArmies;
-					});
-				}}>🗑️</button
-			>
-		</div>
-		{#if $optionsStore.armyListId && $armiesStore[$optionsStore.armyListId]}
-			<Army armyId={$optionsStore.armyListId} />
-		{:else}
-			<p>Make an army.</p>
+						goto(`/editor/${newArmyId}`);
+					}}>Make an Army</button
+				>
+			</p>
 		{/if}
 	</div>
 	<div class="basis-prose">
 		<h2>Preview</h2>
-		<table class="mb-2">
-			<tbody>
-				<tr>
-					<td><label for="preview-show-army-notes-checkbox">Show Army Notes</label></td>
-					<td
-						><input
-							id="preview-show-army-notes-checkbox"
-							class="ml-2"
-							type="checkbox"
-							bind:checked={$optionsStore.showArmyNotes}
-						/></td
-					>
-				</tr>
-				<tr>
-					<td><label for="preview-show-unit-notes-checkbox">Show Unit Notes</label></td>
-					<td
-						><input
-							id="preview-show-unit-notes-checkbox"
-							class="ml-2"
-							type="checkbox"
-							bind:checked={$optionsStore.showUnitNotes}
-						/></td
-					>
-				</tr>
-			</tbody>
-		</table>
-		{#if $optionsStore.armyListId && $armiesStore[$optionsStore.armyListId]}
-			<ArmyDisplay
-				army={$armiesStore[$optionsStore.armyListId]}
-				showArmyNotes={!!$optionsStore.showArmyNotes}
-				showUnitNotes={!!$optionsStore.showUnitNotes}
-			/>
-		{/if}
 	</div>
 </div>
