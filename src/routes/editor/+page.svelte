@@ -8,7 +8,7 @@
 <div class="flex flex-row justify-center">
 	<div class="mr-4">
 		<h2>Lists</h2>
-		<ListControls showNewArmyButton subRoute={'editor'} />
+		<ListControls showNewArmyButton />
 		<details class="w-64">
 			<summary class="text-xl">Help</summary>
 			<p>The army list is saved on your browser as soon as you make any changes.</p>
