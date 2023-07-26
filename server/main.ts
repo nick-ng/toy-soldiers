@@ -1,16 +1,28 @@
 console.log(Deno.env.get('TEST_YML'));
 console.log(Deno.env.get('TEST_FILE'));
-console.log('hi');
 
-const main = async () => {
-	const statusCmd = new Deno.Command('ls', {
-		args: ['-a']
-	});
+import { router } from './routers/index.ts';
 
-	const { stdout } = await statusCmd.output();
-	const statusStr = new TextDecoder().decode(stdout);
+const PORT = 8080;
 
-	console.log('statusStr', statusStr);
+const server = Deno.listen({ port: PORT });
+
+let counter = 0;
+
+const serveHttp = async (conn: Deno.Conn) => {
+	counter = counter + 1;
+	const httpConn = Deno.serveHttp(conn);
+
+	let counter2 = 0;
+
+	for await (const requestEvent of httpConn) {
+		console.log('counters', counter, counter2++);
+		console.log('method', requestEvent.request.method);
+
+		router(requestEvent);
+	}
 };
 
-main();
+for await (const conn of server) {
+	serveHttp(conn);
+}

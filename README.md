@@ -2,28 +2,11 @@
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+1. `npm install`
+2. `npm start` to run front-end
+3. `npm run dev:back` to run back-end
 
 ## Building
 
@@ -40,9 +23,6 @@ You can preview the production build with `npm run preview`.
 ## ToDos
 
 - make "ctrl + s" keyboard shortcut not bring up the save menu
-- export lists
-- import lists
-- delete lists
 
 ### ToDo Comments
 

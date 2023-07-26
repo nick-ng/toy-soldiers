@@ -13,7 +13,7 @@ services:
       - '3232:8080'
     volumes:
       - ./:/usr/src/app
-    command: deno run --allow-env --allow-run --watch ./server/main.ts
+    command: deno run --allow-net --allow-env --allow-run ./server/main.ts
   redis:
     image: redis:7.0.12-alpine
     command: redis-server /usr/local/etc/redis/redis.conf
