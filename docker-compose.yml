@@ -4,8 +4,6 @@ services:
   server:
     env_file:
       - .env.docker
-    environment:
-      TEST_YML: test_yml
     build:
       context: .
       dockerfile: Dockerfile

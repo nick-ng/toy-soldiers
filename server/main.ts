@@ -1,6 +1,3 @@
-console.log(Deno.env.get('TEST_YML'));
-console.log(Deno.env.get('TEST_FILE'));
-
 import { router } from './routers/index.ts';
 
 const PORT = 8080;
