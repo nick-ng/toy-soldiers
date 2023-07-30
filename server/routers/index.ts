@@ -2,10 +2,6 @@ import { handleAuthRoutes } from './auth.ts';
 
 const CORS_ORIGINS = Deno.env.get('CORS_ORIGINS')?.split(';') || [];
 
-export const getBody = (requestEvent: Deno.RequestEvent) => {
-	console.log('content-type', requestEvent.request.headers.get('content-type'));
-};
-
 export const router = async (requestEvent: Deno.RequestEvent) => {
 	const url = new URL(requestEvent.request.url);
 	const { headers } = requestEvent.request;
@@ -22,9 +18,6 @@ export const router = async (requestEvent: Deno.RequestEvent) => {
 	}
 
 	if (!accessControlAllowOrigin) {
-		console.log('headers.origin', headers.get('origin'));
-		console.log('CORS_ORIGINS', CORS_ORIGINS);
-
 		requestEvent.respondWith(
 			new Response('Invalid origin', {
 				status: 403,
@@ -36,10 +29,7 @@ export const router = async (requestEvent: Deno.RequestEvent) => {
 		return;
 	}
 
-	console.log('accessControlAllowOrigin', accessControlAllowOrigin);
-
 	if (requestEvent.request.method === 'OPTIONS') {
-		console.log('is options');
 		requestEvent.respondWith(
 			new Response(null, {
 				status: 204,

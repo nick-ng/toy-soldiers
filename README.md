@@ -26,3 +26,12 @@ You can preview the production build with `npm run preview`.
 
 ### ToDo Comments
 
+- server/routers/auth.ts:10: @todo(nick-ng): use zod to validate request body
+- server/routers/auth.ts:96: @todo(nick-ng): use zod to validate request
+- server/routers/auth.ts:112: @todo(nick-ng): use zod to validate response from github?
+- server/routers/auth.ts:125: @todo(nick-ng): use zod to validate response from github?
+- server/utils/index.ts:1: @todo(nick-ng): write hmac function from scratch
+- src/routes/+layout.svelte:20: @todo(nick-ng): can probably put client_id on front-end since they can see it in the url
+- src/routes/+layout.svelte:21: @todo(nick-ng): include scope read:user
+- src/routes/+layout.svelte:28: @todo(nick-ng): use zod to validate response
+- src/routes/auth/+page.svelte:23: @todo(nick-ng): use zod to validate response body

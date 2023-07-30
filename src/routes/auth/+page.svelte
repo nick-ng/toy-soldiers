@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import { IdentityStore } from '$lib/store/identity';
 
 	onMount(() => {
 		const authCode = $page.url.searchParams.get('code');
 		const authState = $page.url.searchParams.get('state');
-		console.log('authCode', authCode);
-		console.log('authState', authState);
+
 		(async () => {
 			const res = await fetch('http://localhost:3232/auth/finish', {
 				method: 'POST',
@@ -19,8 +19,13 @@
 					authState
 				})
 			});
+
+			// @todo(nick-ng): use zod to validate response body
+			const resJson = await res.json();
+
+			IdentityStore.set(resJson);
 		})();
 	});
 </script>
 
-<p>Completing Auth</p>
+<p>Completing Auth...</p>

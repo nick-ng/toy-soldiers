@@ -1,34 +1,13 @@
-// GET https://github.com/login/oauth/authorize
+import { encodeJWT } from '../utils/index.ts';
 
 const GITHUB_AUTH_URL = Deno.env.get('GITHUB_AUTH_URL');
 const GITHUB_CLIENT_ID = Deno.env.get('GITHUB_CLIENT_ID');
-const GITHUB_REDIRECT_URI = Deno.env.get('GITHUB_REDIRECT_URI');
 const GITHUB_SECRET = Deno.env.get('GITHUB_SECRET');
+const JWT_SECRET = Deno.env.get('JWT_SECRET');
 
-const a = {
-	client_id: 'a',
-	redirect_uri: 'asdf',
-	state: 'asdf'
-};
+const JWT_EXPIRY_MS = 1000 * 60 * 60 * 24; // 1 day
 
-// POST https://github.com/login/oauth/access_token
-
-/**
- * Accept: application/json
-{
-  "access_token":"gho_16C7e42F292c6912E7710c838347Ae178B4a",
-  "scope":"repo,gist",
-  "token_type":"bearer"
-}
- */
-
-const b = {
-	client_id: 'a',
-	client_secret: 'asdf',
-	code: 'a',
-	redirect_uri: 'a'
-};
-
+// @todo(nick-ng): use zod to validate request body
 export const handleAuthRoutes = (
 	requestEvent: Deno.RequestEvent,
 	pathFragments: string[],
@@ -83,6 +62,7 @@ export const handleAuthRoutes = (
 				break;
 			}
 			url.searchParams.set('client_id', GITHUB_CLIENT_ID);
+			url.searchParams.set('scope', 'read:user');
 
 			requestEvent.respondWith(
 				new Response(
@@ -101,10 +81,20 @@ export const handleAuthRoutes = (
 			break;
 		}
 		case 'finish': {
+			if (!JWT_SECRET) {
+				requestEvent.respondWith(
+					new Response('No jwt secret configured', {
+						status: 500
+					})
+				);
+
+				break;
+			}
+
 			(async () => {
 				try {
+					// @todo(nick-ng): use zod to validate request
 					const reqJson = await requestEvent.request.json();
-					console.log('reqJson', reqJson);
 
 					const res = await fetch('https://github.com/login/oauth/access_token', {
 						method: 'POST',
@@ -119,15 +109,35 @@ export const handleAuthRoutes = (
 						})
 					});
 
+					// @todo(nick-ng): use zod to validate response from github?
 					const resJson = await res.json();
 
-					console.log('res', res);
-					console.log('resJson', resJson);
+					const { access_token: accessToken } = resJson;
 
-					// @todo(nick-ng): use resJson.access_token to get username from GitHub
+					const res2 = await fetch('https://api.github.com/user', {
+						method: 'GET',
+						headers: {
+							authorization: `Bearer ${accessToken}`,
+							accept: 'application/json'
+						}
+					});
+
+					// @todo(nick-ng): use zod to validate response from github?
+					const res2Json = await res2.json();
+
+					const responseBody = {
+						ghAccessToken: accessToken,
+						jwt: encodeJWT(
+							{
+								login: res2Json.login,
+								exp: Date.now() + JWT_EXPIRY_MS
+							},
+							JWT_SECRET
+						)
+					};
 
 					requestEvent.respondWith(
-						new Response(JSON.stringify({}), {
+						new Response(JSON.stringify(responseBody), {
 							status: 200,
 							headers: {
 								'content-type': 'application/json',

@@ -25,12 +25,15 @@
 				});
 
 				try {
+					// @todo(nick-ng): use zod to validate response
 					const resJson = await res.json();
 
 					if (resJson?.url) {
 						window.location = resJson.url;
 					}
-				} catch (e) {}
+				} catch (e) {
+					// noop
+				}
 			}}>Connect with GitHub</button
 		>
 		<div class="flex-grow" />

@@ -57,4 +57,4 @@ for await (const event of watcher) {
 	}
 }
 
-console.log('hello?');
+console.debug('hello?');
