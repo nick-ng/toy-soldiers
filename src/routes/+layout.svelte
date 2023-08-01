@@ -1,7 +1,8 @@
 <script lang="ts">
-	import '../app.css';
-
 	import { page } from '$app/stores';
+	import { randomUUID } from '$lib/utils';
+	import { optionsStore } from '$lib/store/options';
+	import '../app.css';
 </script>
 
 <div class="sticky top-0 opaque z-10">
@@ -17,23 +18,19 @@
 		>
 		<button
 			on:click={async () => {
-				// @todo(nick-ng): can probably put client_id on front-end since they can see it in the url
-				// @todo(nick-ng): include scope read:user
-				// https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps
-				const res = await fetch('http://localhost:3232/auth/begin?state=test1234', {
-					mode: 'cors'
-				});
+				const state = `gh-${randomUUID()}`;
 
-				try {
-					// @todo(nick-ng): use zod to validate response
-					const resJson = await res.json();
+				optionsStore.update((prevOptions) => ({
+					...prevOptions,
+					oauthState: state
+				}));
 
-					if (resJson?.url) {
-						window.location = resJson.url;
-					}
-				} catch (e) {
-					// noop
-				}
+				const githubAuthUrl = new URL(import.meta.env.VITE_GITHUB_AUTH_URL);
+				githubAuthUrl.searchParams.set('client_id', import.meta.env.VITE_GITHUB_CLIENT_ID);
+				githubAuthUrl.searchParams.set('scope', 'read:user');
+				githubAuthUrl.searchParams.set('state', state);
+
+				window.location.assign(githubAuthUrl.toString());
 			}}>Connect with GitHub</button
 		>
 		<div class="flex-grow" />

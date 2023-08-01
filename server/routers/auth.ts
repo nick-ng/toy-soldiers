@@ -125,6 +125,20 @@ export const handleAuthRoutes = (
 					// @todo(nick-ng): use zod to validate response from github?
 					const res2Json = await res2.json();
 
+					if (!res2Json.login) {
+						requestEvent.respondWith(
+							new Response("Could'nt get user data from GitHub", {
+								status: 401,
+								headers: {
+									'content-type': 'application/json',
+									'access-control-allow-origin': accessControlAllowOrigin
+								}
+							})
+						);
+
+						return;
+					}
+
 					const responseBody = {
 						ghAccessToken: accessToken,
 						jwt: encodeJWT(
