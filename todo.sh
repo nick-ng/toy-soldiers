@@ -2,10 +2,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-npm run format
-npm run lint
-npm run check
-
 sed -i -e '/### ToDo Comments/q' README.md
 
 echo '' >> README.md
