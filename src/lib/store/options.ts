@@ -3,7 +3,12 @@ import { browser } from '$app/environment';
 
 const OPTIONS_LOCAL_STORAGE_KEY = 'NICK_TOY_SOLDIERS_OPTIONS';
 
-type Options = { armyListId?: undefined; showArmyNotes?: boolean; showUnitNotes?: boolean };
+type Options = {
+	armyListId?: undefined;
+	showArmyNotes?: boolean;
+	showUnitNotes?: boolean;
+	oauthState?: string;
+};
 
 let storedOptions: Options = { showArmyNotes: true, showUnitNotes: true };
 

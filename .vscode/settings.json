@@ -7,5 +7,8 @@
 		"files.trimTrailingWhitespace": false,
 		"editor.trimAutoWhitespace": false
 	},
-	"eslint.validate": ["*"]
+	"eslint.validate": ["*"],
+	"deno.enablePaths": ["./server"],
+	"deno.lint": false,
+	"deno.config": "./deno.jsonc"
 }
