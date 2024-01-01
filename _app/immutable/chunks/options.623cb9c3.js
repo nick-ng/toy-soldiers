@@ -1,0 +1,1 @@
+import{w as e}from"./index.0378bb41.js";const s="NICK_TOY_SOLDIERS_OPTIONS";let o={showArmyNotes:!0,showUnitNotes:!0};try{const t=localStorage.getItem(s);t&&(o={...o,...JSON.parse(t),armyListId:void 0})}catch{}const r=e(o);r.subscribe(t=>{localStorage.setItem(s,JSON.stringify(t))});export{r as o};
