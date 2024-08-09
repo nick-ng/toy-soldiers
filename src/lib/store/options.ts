@@ -18,8 +18,8 @@ if (browser) {
 				armyListId: undefined
 			};
 		}
-	} catch (_e) {
-		// noop
+	} catch (e) {
+		console.error('error while retrieving options', e);
 	}
 }
 
