@@ -17,8 +17,8 @@ if (browser) {
 				storedArmies[key].units = storedArmies[key].units.filter((u) => u);
 			}
 		}
-	} catch (_e) {
-		// noop
+	} catch (e) {
+		console.error('error while retrieving options', e);
 	}
 }
 
