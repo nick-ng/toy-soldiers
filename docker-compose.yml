@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  server:
+    env_file:
+      - .env.docker
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3232:8080'
+    volumes:
+      - ./:/usr/src/app
+    command: deno run --allow-net --allow-env --allow-run ./server/main.ts
+  redis:
+    image: redis:7.0.12-alpine
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - '5052:6379'
+    volumes:
+      - ./volumes/redis:/data
+      - ./configs/redis.conf:/usr/local/etc/redis/redis.conf

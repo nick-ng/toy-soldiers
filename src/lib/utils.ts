@@ -1,5 +1,15 @@
 import type { Army } from './types';
 
+const ACCESS_TOKEN_STORE = 'PUX_TOY_SOLDIERS_ACCESS_TOKEN';
+const LOGIN_STORE = 'PUX_TOY_SOLDIERS_LOGIN';
+
+export const saveIdentity = (identity: { accessToken: string; login: string }) => {
+	localStorage.setItem(ACCESS_TOKEN_STORE, identity.accessToken);
+	localStorage.setItem(LOGIN_STORE, identity.login);
+};
+
+export const getIdentity = () => {};
+
 export const randomUUID = (): string => {
 	if (typeof window.crypto.randomUUID === 'function') {
 		return window.crypto.randomUUID();
