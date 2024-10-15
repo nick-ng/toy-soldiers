@@ -1,0 +1,1 @@
+import{w as e}from"./index.BjqbIcNX.js";const r="NICK_TOY_SOLDIERS_OPTIONS";let o={showArmyNotes:!0,showUnitNotes:!0};try{const t=localStorage.getItem(r);t&&(o={...o,...JSON.parse(t),armyListId:void 0})}catch(t){console.error("error while retrieving options",t)}const s=e(o);s.subscribe(t=>{localStorage.setItem(r,JSON.stringify(t))});export{s as o};
