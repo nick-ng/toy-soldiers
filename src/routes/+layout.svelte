@@ -15,7 +15,7 @@
 			class="button-default no-underline mr-1"
 			href="/viewer{$page.params.slug ? `/${$page.params.slug}` : ''}">Viewer</a
 		>
-		<div class="flex-grow" />
+		<div class="flex-grow"></div>
 		<a
 			class="button-default no-underline"
 			href="https://github.com/nick-ng/toy-soldiers"

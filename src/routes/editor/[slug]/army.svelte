@@ -42,7 +42,7 @@
 						? 'h-36'
 						: 'h-16'}"
 					bind:value={$armiesStore[armyId].notes}
-				/></td
+				></textarea></td
 			>
 		</tr>
 	</tbody>

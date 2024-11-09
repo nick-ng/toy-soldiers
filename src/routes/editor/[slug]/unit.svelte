@@ -47,7 +47,7 @@
 				? 'h-36'
 				: 'h-16'}"
 			bind:value={$armiesStore[armyId].units[unitId].notes}
-		/>
+		></textarea>
 	</details>
 	<div class="mt-1 flex flex-row">
 		<button
@@ -113,7 +113,7 @@
 				});
 			}}>×2</button
 		>
-		<div class="flex-grow" />
+		<div class="flex-grow"></div>
 		<button
 			class="ml-1 px-0 cannot-hover:px-2 opaque"
 			on:click={() => {
