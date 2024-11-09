@@ -30,7 +30,7 @@
 		</tr>
 		{#if showNotes && unit.notes}
 			<tr>
-				<td />
+				<td></td>
 				<td class="markdown text-sm leading-tight" colspan="2">
 					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 					{@html md.render(unit.notes)}

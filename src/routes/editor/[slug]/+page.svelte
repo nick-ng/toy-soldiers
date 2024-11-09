@@ -30,7 +30,7 @@
 	<div class="basis-prose mr-4">
 		<div class="flex flex-row items-center">
 			<h1 class="inline">Editor</h1>
-			<div class="flex-grow" />
+			<div class="flex-grow"></div>
 			{#if currentArmy}
 				<a
 					href={`data:text/json;charset=utf-8,${JSON.stringify(currentArmy)}`}
