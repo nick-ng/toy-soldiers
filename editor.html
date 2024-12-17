@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Toy Soldiers</title>
+		
+		<link rel="modulepreload" href="./_app/immutable/entry/start.B8z4fWSu.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.Dn49Mh_v.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/runtime.fWf-DRiV.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.B7OUcrU9.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.CdmiP0-T.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/render.B4vuM2hb.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/disclose-version.BBI9mnrH.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/props.B84-5rBo.js">
+	</head>
+
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">
+			<script>
+				{
+					__sveltekit_r5sno0 = {
+						base: new URL(".", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("./_app/immutable/entry/start.B8z4fWSu.js"),
+						import("./_app/immutable/entry/app.CdmiP0-T.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>
